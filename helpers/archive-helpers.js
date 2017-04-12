@@ -37,6 +37,10 @@ exports.readListOfUrls = function(callback) {
 };
 
 exports.isUrlInList = function(url, callback) {
+  this.readListOfUrls(function(data) {
+    var exists = data.includes(url);
+    callback(exists);
+  })
 };
 
 exports.addUrlToList = function(url, callback) {
