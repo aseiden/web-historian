@@ -44,6 +44,13 @@ exports.isUrlInList = function(url, callback) {
 };
 
 exports.addUrlToList = function(url, callback) {
+  fs.writeFile(this.paths.list, url + '\n', "utf-8", function(err) {
+    if (err) {
+      throw err;
+    } else {
+      callback();
+    }
+  })
 };
 
 exports.isUrlArchived = function(url, callback) {
