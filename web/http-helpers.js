@@ -14,6 +14,29 @@ exports.serveAssets = function(res, asset, callback) {
   // Write some code here that helps serve up your static files!
   // (Static files are things like html (yours or archived from others...),
   // css, or anything that doesn't change often.)
+  res.end(asset);
+};
+
+exports.handleURLPost = function(request, response) {
+    var body = [];
+    request.on('data', function(chunk) {
+      body.push(chunk);
+    }).on('end', function() {
+      body = Buffer.concat(body).toString();
+      body = body.slice(4);
+      console.log(body);
+    });
+}
+
+exports.makeActionHandler = function(actionMap) {
+  return function(request, response) {
+    var action = actionMap[request.method];
+    if(action) {
+      action(request, response);
+    } else {
+      //exports.sendResponse(response, '', 404);
+    }
+  };
 };
 
 
