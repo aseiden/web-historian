@@ -19,12 +19,16 @@ exports.serveAssets = function(res, asset, callback) {
 
 exports.handleURLPost = function(request, response) {
     var body = [];
+    var that = this;
     request.on('data', function(chunk) {
       body.push(chunk);
     }).on('end', function() {
       body = Buffer.concat(body).toString();
       body = body.slice(4);
-      console.log(body);
+      archive.addUrlToList(body, function(){
+        response.writeHead(302, that.headers);
+        response.end('the post worked');
+      });
     });
 }
 
