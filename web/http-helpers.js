@@ -25,10 +25,22 @@ exports.handleURLPost = function(request, response) {
     }).on('end', function() {
       body = Buffer.concat(body).toString();
       body = body.slice(4);
-      archive.addUrlToList(body, function(){
-        response.writeHead(302, that.headers);
-        response.end('the post worked');
-      });
+      archive.isUrlArchived('/' + body, function(exists) {
+        if (exists) {
+          var inputHeader = that.headers;
+          inputHeader.Location = './' + body;
+          response.writeHead(302, inputHeader);
+          that.serveAssets(response, '');
+        } else {
+          archive.addUrlToList(body, function(){
+            var inputHeader = that.headers;
+            inputHeader.Location = './web/public/loading.html';
+            response.writeHead(302, inputHeader);
+            that.serveAssets(response, '');
+          });
+        }
+      })
+
     });
 }
 

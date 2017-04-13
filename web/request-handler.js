@@ -13,8 +13,11 @@ var fs = require('fs');
 
 var actions = {
   'GET': function(request, response) {
-    //Send response
-    fs.readFile('./web/public/index.html', function(err, data) {
+    var targetURL = request.url;
+    if (targetURL === '/') {
+      targetURL = '/web/public/index.html';
+    }
+    fs.readFile('.' + targetURL, function(err, data) {
       if(err) {
         response.writeHead(500, httpHelpers.headers);
         httpHelpers.serveAssets(response, err);
@@ -28,7 +31,7 @@ var actions = {
     httpHelpers.handleURLPost(request, response);
   },
   'OPTIONS': function(request, response) {
-    
+
   }
 };
 

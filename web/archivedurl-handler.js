@@ -11,8 +11,7 @@ var fs = require('fs');
 
 exports.handleRequest = function(request, response) {
   if (request.method === 'GET') {
-    //get the url
-    //check if its in our archive
+    console.log('URL---------------------->', request.url);
     archive.isUrlArchived(request.url, function(exists) {
       if (exists) {
         archive.getHTML(request.url, function(data) {

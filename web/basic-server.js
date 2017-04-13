@@ -13,6 +13,7 @@ var ip = '127.0.0.1';
 
 var router = {
   '/': handler.handleRequest,
+  '/web/public/loading.html': handler.handleRequest,
 };
 
 var server = http.createServer(function(request, response) {
