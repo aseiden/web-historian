@@ -46,7 +46,7 @@ exports.isUrlInList = function(url, callback) {
 };
 
 exports.addUrlToList = function(url, callback) {
-  fs.writeFile(this.paths.list, url + '\n', "utf-8", function(err) {
+  fs.appendFile(this.paths.list, url + '\n', "utf-8", function(err) {
     if (err) {
       throw err;
     } else {
@@ -63,6 +63,8 @@ exports.isUrlArchived = function(url, callback) {
 
 exports.downloadUrls = function(urls) {
   var that = this;
+  urls = urls.slice(0, urls.length - 1);
+  console.log('urls>>>>>>>>>>>>>>>>>>>>>', urls);
   urls.forEach(function(url) {
     http.get('http://' + url, function(response) {
       let rawData = '';
