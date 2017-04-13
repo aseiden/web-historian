@@ -60,4 +60,12 @@ exports.isUrlArchived = function(url, callback) {
 };
 
 exports.downloadUrls = function(urls) {
+  console.log('---------------------------------->URLS', urls);
+  var that = this;
+  urls.forEach(function(url) {
+    console.log('askdjfhaskldflkjasdhflkjashdflkhaskljdfhl', url);
+    http.get(url, function(response) {
+      null;
+    });
+  });
 };
