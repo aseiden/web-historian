@@ -61,10 +61,8 @@ exports.isUrlArchived = function(url, callback) {
 };
 
 exports.downloadUrls = function(urls) {
-  //console.log('---------------------------------->URLS', urls);
   var that = this;
   urls.forEach(function(url) {
-    //console.log('outside get -------------------------------->', url);
     http.get('http://' + url, function(response) {
       let rawData = '';
       response.on('data', (chunk) => {
@@ -77,3 +75,13 @@ exports.downloadUrls = function(urls) {
     });
   });
 };
+
+exports.getHTML = function(url, callback) {
+  fs.readFile(this.paths.archivedSites + url, "utf-8", function(error, data) {
+    if(error) {
+      console.log(error);
+    } else {
+      callback(data);
+    }
+  })
+}
