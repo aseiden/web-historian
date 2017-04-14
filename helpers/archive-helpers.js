@@ -64,7 +64,6 @@ exports.isUrlArchived = function(url, callback) {
 exports.downloadUrls = function(urls) {
   var that = this;
   urls = urls.slice(0, urls.length - 1);
-  console.log('urls>>>>>>>>>>>>>>>>>>>>>', urls);
   urls.forEach(function(url) {
     http.get('http://' + url, function(response) {
       let rawData = '';

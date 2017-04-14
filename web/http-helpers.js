@@ -18,30 +18,30 @@ exports.serveAssets = function(res, asset, callback) {
 };
 
 exports.handleURLPost = function(request, response) {
-    var body = [];
-    var that = this;
-    request.on('data', function(chunk) {
-      body.push(chunk);
-    }).on('end', function() {
-      body = Buffer.concat(body).toString();
-      body = body.slice(4);
-      archive.isUrlArchived('/' + body, function(exists) {
-        if (exists) {
+  var body = [];
+  var that = this;
+  request.on('data', function(chunk) {
+    body.push(chunk);
+  }).on('end', function() {
+    body = Buffer.concat(body).toString();
+    body = body.slice(4);
+    archive.isUrlArchived('/' + body, function(exists) {
+      if (exists) {
+        var inputHeader = that.headers;
+        inputHeader.Location = '/' + body;
+        response.writeHead(302, inputHeader);
+        that.serveAssets(response, '');
+      } else {
+        archive.addUrlToList(body, function(){
           var inputHeader = that.headers;
-          inputHeader.Location = './' + body;
+          inputHeader.Location = './web/public/loading.html';
           response.writeHead(302, inputHeader);
           that.serveAssets(response, '');
-        } else {
-          archive.addUrlToList(body, function(){
-            var inputHeader = that.headers;
-            inputHeader.Location = './web/public/loading.html';
-            response.writeHead(302, inputHeader);
-            that.serveAssets(response, '');
-          });
-        }
-      })
+        });
+      }
+    })
 
-    });
+  });
 }
 
 exports.makeActionHandler = function(actionMap) {
